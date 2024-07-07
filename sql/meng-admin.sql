@@ -11,8 +11,10 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 03/06/2024 21:26:47
+ Date: 29/06/2024 16:34:21
 */
+
+USE meng-admin;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -32,17 +34,23 @@ CREATE TABLE `casbin_rule` (
   `v5` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_casbin_rule` (`ptype`,`v0`,`v1`,`v2`,`v3`,`v4`,`v5`)
-) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of casbin_rule
 -- ----------------------------
 BEGIN;
-INSERT INTO `casbin_rule` VALUES (7, 'p', 'common', '/api/v1/dept', 'GET', '', '', '');
-INSERT INTO `casbin_rule` VALUES (8, 'p', 'common', '/api/v1/dept/:id', 'GET', '', '', '');
-INSERT INTO `casbin_rule` VALUES (9, 'p', 'common', '/api/v1/dept/tree', 'GET', '', '', '');
-INSERT INTO `casbin_rule` VALUES (10, 'p', 'common', '/api/v1/sys-user/:id', 'GET', '', '', '');
-INSERT INTO `casbin_rule` VALUES (11, 'p', 'common', '/api/v1/user/pwd/reset', 'PUT', '', '', '');
+INSERT INTO `casbin_rule` VALUES (41, 'p', 'common', '/api/v1/dept', 'GET', '', '', '');
+INSERT INTO `casbin_rule` VALUES (42, 'p', 'common', '/api/v1/dept/:id', 'GET', '', '', '');
+INSERT INTO `casbin_rule` VALUES (43, 'p', 'common', '/api/v1/dept/tree', 'GET', '', '', '');
+INSERT INTO `casbin_rule` VALUES (47, 'p', 'common', '/api/v1/menu', 'GET', '', '', '');
+INSERT INTO `casbin_rule` VALUES (48, 'p', 'common', '/api/v1/menu/:menuId', 'GET', '', '', '');
+INSERT INTO `casbin_rule` VALUES (49, 'p', 'common', '/api/v1/role', 'GET', '', '', '');
+INSERT INTO `casbin_rule` VALUES (50, 'p', 'common', '/api/v1/role/:id', 'GET', '', '', '');
+INSERT INTO `casbin_rule` VALUES (46, 'p', 'common', '/api/v1/sys-api', 'GET', '', '', '');
+INSERT INTO `casbin_rule` VALUES (51, 'p', 'common', '/api/v1/sys-user', 'GET', '', '', '');
+INSERT INTO `casbin_rule` VALUES (44, 'p', 'common', '/api/v1/sys-user/:id', 'GET', '', '', '');
+INSERT INTO `casbin_rule` VALUES (45, 'p', 'common', '/api/v1/user/pwd/reset', 'PUT', '', '', '');
 INSERT INTO `casbin_rule` VALUES (26, 'p', 'developer', '/api/v/menu', 'DELETE', '', '', '');
 INSERT INTO `casbin_rule` VALUES (19, 'p', 'developer', '/api/v1/dept', 'DELETE', '', '', '');
 INSERT INTO `casbin_rule` VALUES (18, 'p', 'developer', '/api/v1/dept', 'GET', '', '', '');
@@ -79,20 +87,20 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_api`;
 CREATE TABLE `sys_api` (
-  `handle` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'handle',
-  `title` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '标题',
-  `path` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'api路径',
-  `action` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '请求类型',
-  `type` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '接口类型',
+  `handle` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'handle',
+  `title` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '标题',
+  `path` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'api路径',
+  `action` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '请求类型',
+  `type` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '接口类型',
   `created_at` datetime(3) DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime(3) DEFAULT NULL COMMENT '最后更新时间',
   `deleted_at` datetime(3) DEFAULT NULL COMMENT '删除时间',
   `create_by` bigint DEFAULT NULL COMMENT '创建者',
   `update_by` bigint DEFAULT NULL COMMENT '更新者',
-  `api_group` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'api组',
-  `method` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '接口类型POST|PUT|DELETE|GET',
+  `api_group` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'api组',
+  `method` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '接口类型POST|PUT|DELETE|GET',
   `api_id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键编码',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`api_id`),
   KEY `idx_sys_api_create_by` (`create_by`),
   KEY `idx_sys_api_update_by` (`update_by`),
@@ -141,12 +149,12 @@ DROP TABLE IF EXISTS `sys_dept`;
 CREATE TABLE `sys_dept` (
   `dept_id` bigint NOT NULL AUTO_INCREMENT,
   `parent_id` bigint DEFAULT NULL,
-  `dept_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `dept_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `dept_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `dept_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `sort` tinyint DEFAULT NULL,
-  `leader` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `email` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `leader` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `email` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `status` tinyint DEFAULT NULL COMMENT '状态 1:正常 0 停用',
   `create_by` bigint DEFAULT NULL COMMENT '创建者',
   `update_by` bigint DEFAULT NULL COMMENT '更新者',
@@ -170,8 +178,8 @@ INSERT INTO `sys_dept` VALUES (4, 1, '/0/1/4/', '成都分公司', 5, '', '', ''
 INSERT INTO `sys_dept` VALUES (5, 1, '/0/1/5/', '深圳分公司', 4, '', '', '', 1, 0, 1, '2024-05-14 22:07:25.836', '2024-05-28 22:48:02.075', NULL);
 INSERT INTO `sys_dept` VALUES (6, 1, '/0/1/6/', '北京总公司', 1, '', '', '', 1, 0, 1, '2024-05-14 22:51:20.561', '2024-05-28 22:47:19.540', NULL);
 INSERT INTO `sys_dept` VALUES (7, 1, '/0/1/7/', '上海分公司', 3, '', '', '', 1, 0, 1, '2024-05-14 22:52:20.446', '2024-05-28 22:47:57.857', NULL);
-INSERT INTO `sys_dept` VALUES (8, 6, '/0/1/6/8/', '研发部', 3, '', '', '', 1, 0, 1, '2024-05-14 23:01:41.475', '2024-05-28 22:47:38.311', NULL);
-INSERT INTO `sys_dept` VALUES (9, 6, '/0/1/6/9/', '市场部', 4, '', '', '', 1, 0, 1, '2024-05-14 23:01:54.538', '2024-05-28 22:47:40.036', NULL);
+INSERT INTO `sys_dept` VALUES (8, 6, '/0/1/6/8/', '研发部', 3, '', '', '', 1, 0, 1, '2024-05-14 23:01:41.475', '2024-06-03 23:39:55.461', NULL);
+INSERT INTO `sys_dept` VALUES (9, 6, '/0/1/6/9/', '市场部', 4, '', '', '', 1, 0, 1, '2024-05-14 23:01:54.538', '2024-06-03 23:39:55.461', NULL);
 INSERT INTO `sys_dept` VALUES (10, 6, '/0/1/6/10/', '财务部', 2, '', '', '', 1, 0, 1, '2024-05-14 23:02:14.266', '2024-05-28 22:47:35.710', NULL);
 INSERT INTO `sys_dept` VALUES (11, 6, '/0/1/6/11/', '运营部', 6, '', '', '', 1, 0, 1, '2024-05-14 23:02:22.820', '2024-05-28 22:47:44.663', NULL);
 INSERT INTO `sys_dept` VALUES (12, 3, '/0/1/3/12/', '研发部', 1, '', '', '', 1, 0, 1, '2024-05-15 20:50:17.423', '2024-05-28 22:47:53.898', NULL);
@@ -187,57 +195,83 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu` (
   `menu_id` bigint NOT NULL AUTO_INCREMENT,
-  `menu_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '菜单名称',
-  `title` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `icon` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `path` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `paths` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `menu_type` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `action` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `menu_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '菜单名称',
+  `title` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `icon` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `path` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `paths` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `menu_type` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `action` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `parent_id` smallint DEFAULT NULL,
   `no_cache` tinyint(1) DEFAULT '1' COMMENT '是否禁用页面缓存',
-  `breadcrumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `breadcrumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `sort` tinyint DEFAULT NULL COMMENT '显示排序',
-  `visible` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '菜单状态，1:显示 0:隐藏',
-  `is_frame` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '0',
+  `visible` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '菜单状态，1:显示 0:隐藏',
+  `is_frame` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0',
   `create_by` bigint DEFAULT NULL COMMENT '创建者',
   `update_by` bigint DEFAULT NULL COMMENT '更新者',
   `created_at` datetime(3) DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime(3) DEFAULT NULL COMMENT '最后更新时间',
   `deleted_at` datetime(3) DEFAULT NULL COMMENT '删除时间',
-  `status` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '菜单状态，1:正常 0:停用',
-  `view_type` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '试图类型，1:普通页面 2:外链页面 3:内嵌页面',
-  `is_internally` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '0' COMMENT '是否是系统内置数据，内置数据不可删除',
+  `status` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '菜单状态，1:正常 0:停用',
+  `view_type` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '试图类型，1:普通页面 2:外链页面 3:内嵌页面',
+  `is_internally` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '是否是系统内置数据，内置数据不可删除',
+  `link_url` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '内嵌、外链地址',
+  `has_layout` varchar(1) COLLATE utf8mb4_general_ci DEFAULT '1' COMMENT '是否使用layout',
   PRIMARY KEY (`menu_id`),
   KEY `idx_sys_menu_create_by` (`create_by`),
   KEY `idx_sys_menu_update_by` (`update_by`),
   KEY `idx_sys_menu_deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_menu` VALUES (18, '系统管理', '', 'icon-park-outline:config', 'system', '/0/18', 'M', '', '', 0, 1, '', '', 2, '1', '0', 0, 1, '2024-05-05 16:02:46.396', '2024-05-29 23:30:10.037', NULL, '1', '1', '0');
-INSERT INTO `sys_menu` VALUES (19, '菜单嵌套', '', 'icon-park-outline:application-menu', 'menu', '/0/19', 'M', '', '', 0, 1, '', '', 3, '1', '0', 0, 1, '2024-05-05 16:03:11.659', '2024-05-29 23:30:10.037', NULL, '1', '1', '0');
-INSERT INTO `sys_menu` VALUES (20, '用户管理', '', 'icon-park-outline:every-user', 'user', '/0/18/20', 'C', '', '', 18, 0, '', '/views/system/user/index', 1, '1', '0', 0, 1, '2024-05-05 16:03:44.708', '2024-05-31 22:36:35.128', NULL, '1', '1', '0');
-INSERT INTO `sys_menu` VALUES (21, '角色管理', '', 'icon-park-outline:permissions', 'role', '/0/18/21', 'C', '', '', 18, 0, '', '/views/system/role/index', 2, '1', '0', 0, 1, '2024-05-05 16:04:10.925', '2024-05-31 22:37:26.000', NULL, '1', '1', '0');
-INSERT INTO `sys_menu` VALUES (22, '部门管理', '', 'icon-park-outline:network-tree', 'dept', '/0/18/22', 'C', '', '', 18, 1, '', '/views/system/dept/index', 4, '1', '0', 0, 1, '2024-05-05 16:04:26.806', '2024-05-29 23:31:14.135', NULL, '1', '1', '0');
-INSERT INTO `sys_menu` VALUES (23, '菜单管理', '', 'ant-design:menu-unfold-outlined', 'menu', '/0/18/23', 'C', '', '', 18, 1, '', '/views/system/menu/index', 3, '1', '0', 0, 1, '2024-05-05 16:04:36.635', '2024-05-31 22:24:42.627', NULL, '1', '1', '0');
-INSERT INTO `sys_menu` VALUES (24, 'menu-1', '', '', 'menu1', '/0/19/24', 'M', '', '', 19, 1, '', '', 0, '1', '0', 0, 1, '2024-05-05 16:23:24.700', '2024-05-29 23:30:10.037', NULL, '1', '1', '0');
-INSERT INTO `sys_menu` VALUES (25, 'menu-1-1', '', '', 'menu11', '/0/19/24/25', 'C', '', '', 24, 1, '', '/views/menu/menu1/menu11/index', 0, '1', '0', 1, 0, '2024-05-05 16:24:35.741', '2024-05-29 23:31:14.135', NULL, '1', '1', '0');
-INSERT INTO `sys_menu` VALUES (26, 'menu-1-2', '', '', 'menu12', '/0/19/24/26', 'M', '', '', 24, 1, '', '', 0, '1', '0', 1, 0, '2024-05-05 16:25:07.413', '2024-05-29 23:30:10.037', NULL, '1', '1', '0');
-INSERT INTO `sys_menu` VALUES (27, 'menu-1-3', '', '', 'menu13', '/0/19/24/27', 'C', '', '', 24, 1, '', '/views/menu/menu1/menu13/index', 0, '1', '0', 1, 0, '2024-05-05 16:25:46.664', '2024-05-29 23:31:14.135', NULL, '1', '1', '0');
-INSERT INTO `sys_menu` VALUES (28, 'menu-1-2-1', '', '', 'menu121', '/0/19/24/26/28', 'C', '', '', 26, 1, '', '/views/menu/menu1/menu12/menu121/index', 0, '1', '0', 1, 0, '2024-05-05 16:26:44.619', '2024-05-29 23:31:14.135', NULL, '1', '1', '0');
-INSERT INTO `sys_menu` VALUES (29, 'menu-1-2-2', '', '', 'menu122', '/0/19/24/26/29', 'C', '', '', 26, 1, '', '/views/menu/menu1/menu12/menu122/index', 0, '1', '0', 1, 0, '2024-05-05 16:27:28.544', '2024-05-29 23:31:14.135', NULL, '1', '1', '0');
-INSERT INTO `sys_menu` VALUES (31, '首页', '', 'ant-design:home-outlined', 'home', '/0/31', 'C', '', '', 0, 1, '', '/views/home/index', 1, '1', '0', 0, 1, '2024-05-08 20:07:13.291', '2024-05-31 22:21:30.291', NULL, '1', '1', '0');
-INSERT INTO `sys_menu` VALUES (32, '查询', '', '', '', '/0/18/23/32', 'F', '', 'system:menu:query', 23, 1, '', '', 1, '', '0', 0, 1, '2024-05-09 21:41:03.705', '2024-05-29 23:31:14.135', NULL, '1', '1', '0');
-INSERT INTO `sys_menu` VALUES (33, '新增', '', '', '', '/0/18/23/33', 'F', '', 'system:menu:add', 23, 1, '', '', 2, '', '0', 0, 1, '2024-05-09 21:53:03.048', '2024-05-29 23:31:14.135', NULL, '1', '1', '0');
-INSERT INTO `sys_menu` VALUES (34, '修改', '', '', '', '/0/18/23/34', 'F', '', 'system:menu:update', 23, 1, '', '', 3, '', '0', 0, 1, '2024-05-09 21:53:23.389', '2024-05-29 23:31:14.135', NULL, '1', '1', '0');
-INSERT INTO `sys_menu` VALUES (35, '删除', '', '', '', '/0/18/23/35', 'F', '', 'system:menu:delete', 23, 1, '', '', 4, '', '0', 0, 1, '2024-05-09 21:53:43.256', '2024-05-29 23:31:14.135', NULL, '1', '1', '0');
-INSERT INTO `sys_menu` VALUES (36, 'api管理', '', 'icon-park-outline:api', 'api', '/0/18/36', 'C', '', '', 18, 0, '', '/views/system/api/index', 5, '1', '0', 0, 1, '2024-05-24 21:07:39.431', '2024-06-02 10:31:10.470', NULL, '1', '1', '0');
+INSERT INTO `sys_menu` VALUES (18, '系统管理', '', 'icon-park-outline:config', 'system', '/0/18', 'M', '', '', 0, 1, '', '', 2, '1', '0', 0, 1, '2024-05-05 16:02:46.396', '2024-06-04 20:20:26.292', NULL, '1', '1', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (19, '菜单嵌套', '', 'icon-park-outline:application-menu', 'menu', '/0/19', 'M', '', '', 0, 1, '', '', 3, '1', '0', 0, 1, '2024-05-05 16:03:11.659', '2024-05-29 23:30:10.037', NULL, '1', '1', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (20, '用户管理', '', 'icon-park-outline:every-user', 'user', '/0/18/20', 'C', '', '', 18, 1, '', '/views/system/user/index', 1, '1', '0', 0, 1, '2024-05-05 16:03:44.708', '2024-06-04 20:20:26.292', NULL, '1', '1', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (21, '角色管理', '', 'icon-park-outline:permissions', 'role', '/0/18/21', 'C', '', '', 18, 1, '', '/views/system/role/index', 2, '1', '0', 0, 1, '2024-05-05 16:04:10.925', '2024-06-04 20:20:26.292', NULL, '1', '1', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (22, '部门管理', '', 'icon-park-outline:network-tree', 'dept', '/0/18/22', 'C', '', '', 18, 1, '', '/views/system/dept/index', 4, '1', '0', 0, 1, '2024-05-05 16:04:26.806', '2024-06-04 20:20:26.292', NULL, '1', '1', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (23, '菜单管理', '', 'ant-design:menu-unfold-outlined', 'menu', '/0/18/23', 'C', '', '', 18, 1, '', '/views/system/menu/index', 3, '1', '0', 0, 1, '2024-05-05 16:04:36.635', '2024-06-04 20:20:26.292', NULL, '1', '1', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (24, 'menu-1', '', '', 'menu1', '/0/19/24', 'M', '', '', 19, 1, '', '', 0, '1', '0', 0, 1, '2024-05-05 16:23:24.700', '2024-05-29 23:30:10.037', NULL, '1', '1', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (25, 'menu-1-1', '', '', 'menu11', '/0/19/24/25', 'C', '', '', 24, 1, '', '/views/menu/menu1/menu11/index', 0, '1', '0', 1, 0, '2024-05-05 16:24:35.741', '2024-06-03 23:54:29.711', NULL, '1', '1', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (26, 'menu-1-2', '', '', 'menu12', '/0/19/24/26', 'M', '', '', 24, 1, '', '', 0, '1', '0', 1, 0, '2024-05-05 16:25:07.413', '2024-05-29 23:30:10.037', NULL, '1', '1', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (27, 'menu-1-3', '', '', 'menu13', '/0/19/24/27', 'C', '', '', 24, 1, '', '/views/menu/menu1/menu13/index', 0, '1', '0', 1, 0, '2024-05-05 16:25:46.664', '2024-06-03 23:54:29.711', NULL, '1', '1', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (28, 'menu-1-2-1', '', '', 'menu121', '/0/19/24/26/28', 'C', '', '', 26, 1, '', '/views/menu/menu1/menu12/menu121/index', 0, '1', '0', 1, 0, '2024-05-05 16:26:44.619', '2024-06-03 23:54:29.711', NULL, '1', '1', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (29, 'menu-1-2-2', '', '', 'menu122', '/0/19/24/26/29', 'C', '', '', 26, 1, '', '/views/menu/menu1/menu12/menu122/index', 0, '1', '0', 1, 0, '2024-05-05 16:27:28.544', '2024-06-03 23:54:29.711', NULL, '1', '1', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (31, '首页', '', 'ant-design:home-outlined', 'home', '/0/31', 'C', '', '', 0, 1, '', '/views/home/index', 1, '1', '0', 0, 1, '2024-05-08 20:07:13.291', '2024-06-05 20:50:22.893', NULL, '1', '1', '0', '', '1');
+INSERT INTO `sys_menu` VALUES (32, '详情', '', '', '', '/0/18/23/32', 'F', '', 'system:menu:query', 23, 1, '', '', 1, '', '0', 0, 1, '2024-05-09 21:41:03.705', '2024-06-04 20:20:26.292', NULL, '1', '1', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (33, '新增', '', '', '', '/0/18/23/33', 'F', '', 'system:menu:add', 23, 1, '', '', 2, '', '0', 0, 1, '2024-05-09 21:53:03.048', '2024-06-03 23:54:29.711', NULL, '1', '1', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (34, '修改', '', '', '', '/0/18/23/34', 'F', '', 'system:menu:update', 23, 1, '', '', 3, '', '0', 0, 1, '2024-05-09 21:53:23.389', '2024-06-03 23:54:29.711', NULL, '1', '1', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (35, '删除', '', '', '', '/0/18/23/35', 'F', '', 'system:menu:delete', 23, 1, '', '', 4, '', '0', 0, 1, '2024-05-09 21:53:43.256', '2024-06-03 23:54:29.711', NULL, '1', '1', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (36, 'api管理', '', 'icon-park-outline:api', 'api', '/0/18/36', 'C', '', '', 18, 1, '', '/views/system/api/index', 5, '1', '0', 0, 1, '2024-05-24 21:07:39.431', '2024-06-04 20:20:26.292', NULL, '1', '1', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (37, '详情', '', '', '', '/0/18/20/37', 'F', '', 'system:user:query', 20, 1, '', '', 1, '', '0', 1, 0, '2024-06-04 08:28:19.715', '2024-06-04 20:20:26.292', NULL, '1', '', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (38, '编辑', '', '', '', '/0/18/20/38', 'F', '', 'system:user:edit', 20, 1, '', '', 2, '', '0', 1, 0, '2024-06-04 08:28:43.684', '2024-06-04 08:28:43.685', NULL, '1', '', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (39, '删除', '', '', '', '/0/18/20/39', 'F', '', 'system:user:delete', 20, 1, '', '', 3, '', '0', 1, 0, '2024-06-04 08:28:58.593', '2024-06-04 08:28:58.594', NULL, '1', '', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (40, '新增', '', '', '', '/0/18/20/40', 'F', '', 'system:user:add', 20, 1, '', '', 4, '', '0', 1, 0, '2024-06-04 08:29:50.463', '2024-06-04 08:29:50.464', NULL, '1', '', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (41, '重置密码', '', '', '', '/0/18/20/41', 'F', '', 'system:user:restpwd', 20, 1, '', '', 4, '', '0', 1, 0, '2024-06-04 08:30:24.477', '2024-06-04 20:20:26.292', NULL, '1', '', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (42, '新增', '', '', '', '/0/18/21/42', 'F', '', 'system:role:add', 21, 1, '', '', 1, '', '0', 1, 0, '2024-06-04 08:32:10.227', '2024-06-04 08:32:10.234', NULL, '1', '', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (43, '编辑', '', '', '', '/0/18/21/43', 'F', '', 'system:role:edit', 21, 1, '', '', 2, '', '0', 1, 0, '2024-06-04 08:32:40.226', '2024-06-04 08:32:40.227', NULL, '1', '', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (44, '删除', '', '', '', '/0/18/21/44', 'F', '', 'system:role:delete', 21, 1, '', '', 3, '', '0', 1, 0, '2024-06-04 08:33:08.812', '2024-06-04 08:33:08.826', NULL, '1', '', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (45, '详情', '', '', '', '/0/18/21/45', 'F', '', 'system:role:query', 21, 1, '', '', 4, '', '0', 1, 0, '2024-06-04 08:33:42.989', '2024-06-04 20:20:26.292', NULL, '1', '', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (46, '权限分配', '', '', '', '/0/18/21/46', 'F', '', 'system:role:auth', 21, 1, '', '', 5, '', '0', 1, 0, '2024-06-04 08:34:20.320', '2024-06-04 08:34:20.323', NULL, '1', '', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (47, '新增', '', '', '', '/0/18/22/47', 'F', '', 'system:dept:add', 22, 1, '', '', 1, '', '0', 1, 0, '2024-06-04 20:14:11.538', '2024-06-04 20:14:11.541', NULL, '1', '', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (48, '编辑', '', '', '', '/0/18/22/48', 'F', '', 'system:dept:edit', 22, 1, '', '', 2, '', '0', 1, 0, '2024-06-04 20:14:34.784', '2024-06-04 20:14:34.788', NULL, '1', '', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (49, '删除', '', '', '', '/0/18/22/49', 'F', '', 'system:dept:delete', 22, 1, '', '', 3, '', '0', 1, 0, '2024-06-04 20:14:55.054', '2024-06-04 20:14:55.057', NULL, '1', '', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (50, '详情', '', '', '', '/0/18/22/50', 'F', '', 'system:dept:query', 22, 1, '', '', 4, '', '0', 0, 1, '2024-06-04 20:15:13.984', '2024-06-04 20:20:26.292', NULL, '1', '', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (51, '新增', '', '', '', '/0/18/36/51', 'F', '', 'system:api:add', 36, 1, '', '', 1, '', '0', 1, 0, '2024-06-04 20:18:27.446', '2024-06-04 20:18:27.451', NULL, '1', '', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (52, '编辑', '', '', '', '/0/18/36/52', 'F', '', 'system:api:edit', 36, 1, '', '', 2, '', '0', 1, 0, '2024-06-04 20:18:49.751', '2024-06-04 20:18:49.752', NULL, '1', '', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (53, '删除', '', '', '', '/0/18/36/53', 'F', '', 'system:api:delete', 36, 1, '', '', 3, '', '0', 1, 0, '2024-06-04 20:19:10.396', '2024-06-04 20:19:10.404', NULL, '1', '', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (54, '详情', '', '', '', '/0/18/36/54', 'F', '', 'system:api:query', 36, 1, '', '', 4, '', '0', 1, 0, '2024-06-04 20:19:26.625', '2024-06-04 20:20:26.292', NULL, '1', '', '0', NULL, '1');
+INSERT INTO `sys_menu` VALUES (55, '外链', '', 'ant-design:aim-outlined', 'http://www.baidu.com', '/0/55', 'C', '', '', 0, 1, '', '', 4, '1', '0', 0, 1, '2024-06-04 23:52:46.784', '2024-06-05 00:10:55.825', NULL, '1', '2', '0', 'http://www.baidu.com', '1');
+INSERT INTO `sys_menu` VALUES (56, 'page1', '', 'ant-design:account-book-outlined', 'dataScreen', '/0/56', 'C', '', '', 58, 1, '', '/views/screen/page1/index', 5, '0', '0', 0, 1, '2024-06-05 20:35:44.349', '2024-06-07 20:04:50.201', NULL, '1', '1', '0', '', '0');
+INSERT INTO `sys_menu` VALUES (57, '数据大屏', '', 'ant-design:fund-projection-screen-outlined', 'dataScreen', '/0/57', 'C', '', '', 0, 1, '', '', 6, '1', '0', 0, 1, '2024-06-05 21:10:53.941', '2024-06-07 20:59:06.205', NULL, '1', '2', '0', '/noLayout/dataScreen', '1');
+INSERT INTO `sys_menu` VALUES (58, 'noLayout', '', '', 'noLayout', '/0/58', 'M', '', '', 0, 1, '', '', 6, '0', '0', 0, 1, '2024-06-05 23:09:07.262', '2024-06-05 23:09:58.049', NULL, '1', '1', '0', '', '0');
+INSERT INTO `sys_menu` VALUES (59, '内嵌页面一', '', '', 'iframeOne', '/0/59', 'C', '', '', 0, 0, '', '', 6, '1', '0', 0, 1, '2024-06-07 20:57:39.621', '2024-06-07 21:45:50.490', NULL, '1', '3', '0', 'https://nodejs.org/zh-cn/', '1');
+INSERT INTO `sys_menu` VALUES (60, '内嵌页面二', '', '', 'iframeTwo', '/0/60', 'C', '', '', 0, 0, '', '', 7, '1', '0', 0, 1, '2024-06-07 20:58:15.761', '2024-06-07 23:11:01.995', NULL, '1', '3', '0', 'system/dept', '1');
 COMMIT;
 
 -- ----------------------------
@@ -262,11 +296,11 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_post`;
 CREATE TABLE `sys_post` (
   `post_id` bigint NOT NULL AUTO_INCREMENT,
-  `post_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `post_code` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `post_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `post_code` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `sort` tinyint DEFAULT NULL,
   `status` tinyint DEFAULT NULL,
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `create_by` bigint DEFAULT NULL COMMENT '创建者',
   `update_by` bigint DEFAULT NULL COMMENT '更新者',
   `created_at` datetime(3) DEFAULT NULL COMMENT '创建时间',
@@ -290,19 +324,19 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role` (
   `role_id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '角色ID',
-  `role_name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '角色名',
-  `status` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '状态 0禁用 1正常',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `role_name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '角色名',
+  `status` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '状态 0禁用 1正常',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `admin` tinyint(1) DEFAULT NULL,
-  `data_scope` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '1',
+  `data_scope` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
   `create_by` bigint DEFAULT NULL COMMENT '创建者',
   `update_by` bigint DEFAULT NULL COMMENT '更新者',
   `created_at` datetime(3) DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime(3) DEFAULT NULL COMMENT '最后更新时间',
   `deleted_at` datetime(3) DEFAULT NULL COMMENT '删除时间',
-  `role_code` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `role_code` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `sort` bigint DEFAULT NULL,
-  `default_router` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `default_router` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`role_id`),
   KEY `idx_sys_role_create_by` (`create_by`),
   KEY `idx_sys_role_update_by` (`update_by`),
@@ -314,11 +348,11 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 BEGIN;
 INSERT INTO `sys_role` VALUES (1, '系统管理员', '1', '', 0, '1', 1, 0, '2024-05-17 23:05:13.672', '2024-05-17 23:05:13.672', NULL, 'admin', 1, '/home');
-INSERT INTO `sys_role` VALUES (2, '普通用户', '1', '', 0, '2', 0, 1, '2024-05-17 23:33:35.387', '2024-05-29 23:29:05.104', NULL, 'common', 3, '/home');
-INSERT INTO `sys_role` VALUES (3, '开发者', '1', '', 0, '1', 0, 1, '2024-05-17 23:35:35.162', '2024-05-29 23:31:14.133', NULL, 'developer', 4, '/home');
-INSERT INTO `sys_role` VALUES (4, '安全管理员', '1', '', 0, '1', 0, 1, '2024-05-18 12:50:47.000', '2024-05-29 23:30:59.860', NULL, 'security', 2, '/system/role');
+INSERT INTO `sys_role` VALUES (2, '普通用户', '1', '', 0, '1', 0, 1, '2024-05-17 23:33:35.387', '2024-06-04 20:21:27.999', NULL, 'common', 3, '/home');
+INSERT INTO `sys_role` VALUES (3, '开发者', '1', '', 0, '1', 0, 1, '2024-05-17 23:35:35.162', '2024-06-03 23:54:29.710', NULL, 'developer', 4, '/home');
+INSERT INTO `sys_role` VALUES (4, '安全管理员', '1', '', 0, '1', 0, 1, '2024-05-18 12:50:47.000', '2024-06-03 23:54:39.779', NULL, 'security', 2, '/system/role');
 INSERT INTO `sys_role` VALUES (5, '测试员', '1', '', 0, '1', 1, 0, '2024-05-18 12:59:56.689', '2024-05-18 12:59:56.689', '2024-05-18 13:01:30.703', 'test', 1, NULL);
-INSERT INTO `sys_role` VALUES (6, '测试员', '1', '', 0, '1', 0, 1, '2024-05-18 13:01:45.311', '2024-05-29 23:30:23.075', NULL, 'test', 6, '/home');
+INSERT INTO `sys_role` VALUES (6, '测试员', '1', '', 0, '1', 0, 1, '2024-05-18 13:01:45.311', '2024-06-03 23:54:35.741', NULL, 'test', 6, '/home');
 COMMIT;
 
 -- ----------------------------
@@ -335,8 +369,6 @@ CREATE TABLE `sys_role_dept` (
 -- Records of sys_role_dept
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_role_dept` VALUES (2, 8);
-INSERT INTO `sys_role_dept` VALUES (2, 9);
 COMMIT;
 
 -- ----------------------------
@@ -353,19 +385,19 @@ CREATE TABLE `sys_role_menu` (
 -- Records of sys_role_menu
 -- ----------------------------
 BEGIN;
+INSERT INTO `sys_role_menu` VALUES (2, 18);
 INSERT INTO `sys_role_menu` VALUES (2, 20);
 INSERT INTO `sys_role_menu` VALUES (2, 21);
 INSERT INTO `sys_role_menu` VALUES (2, 22);
-INSERT INTO `sys_role_menu` VALUES (2, 25);
-INSERT INTO `sys_role_menu` VALUES (2, 27);
-INSERT INTO `sys_role_menu` VALUES (2, 28);
-INSERT INTO `sys_role_menu` VALUES (2, 29);
+INSERT INTO `sys_role_menu` VALUES (2, 23);
 INSERT INTO `sys_role_menu` VALUES (2, 31);
 INSERT INTO `sys_role_menu` VALUES (2, 32);
-INSERT INTO `sys_role_menu` VALUES (2, 33);
-INSERT INTO `sys_role_menu` VALUES (2, 34);
-INSERT INTO `sys_role_menu` VALUES (2, 35);
 INSERT INTO `sys_role_menu` VALUES (2, 36);
+INSERT INTO `sys_role_menu` VALUES (2, 37);
+INSERT INTO `sys_role_menu` VALUES (2, 41);
+INSERT INTO `sys_role_menu` VALUES (2, 45);
+INSERT INTO `sys_role_menu` VALUES (2, 50);
+INSERT INTO `sys_role_menu` VALUES (2, 54);
 INSERT INTO `sys_role_menu` VALUES (3, 20);
 INSERT INTO `sys_role_menu` VALUES (3, 21);
 INSERT INTO `sys_role_menu` VALUES (3, 22);
@@ -431,19 +463,19 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_users`;
 CREATE TABLE `sys_users` (
   `user_id` bigint NOT NULL AUTO_INCREMENT COMMENT '编码',
-  `username` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户登录名',
-  `password` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户登录密码',
-  `salt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '加盐',
-  `nick_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '系统用户' COMMENT '用户昵称',
-  `sex` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '性别',
-  `avatar` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'https://pic.qianxun.shop/i/2024/03/29/66059924431c9.webp' COMMENT '用户头像',
-  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户手机号',
-  `email` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户邮箱',
-  `status` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '1' COMMENT '用户是否被冻结 1正常 0冻结',
+  `username` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户登录名',
+  `password` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户登录密码',
+  `salt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '加盐',
+  `nick_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '系统用户' COMMENT '用户昵称',
+  `sex` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '性别',
+  `avatar` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'https://pic.qianxun.shop/i/2024/03/29/66059924431c9.webp' COMMENT '用户头像',
+  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户手机号',
+  `email` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户邮箱',
+  `status` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1' COMMENT '用户是否被冻结 1正常 0冻结',
   `role_id` mediumint DEFAULT NULL COMMENT '角色ID',
   `dept_id` mediumint DEFAULT NULL COMMENT '部门',
   `post_id` mediumint DEFAULT NULL COMMENT '岗位',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '备注',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
   `create_by` bigint DEFAULT NULL COMMENT '创建者',
   `update_by` bigint DEFAULT NULL COMMENT '更新者',
   `created_at` datetime(3) DEFAULT NULL COMMENT '创建时间',

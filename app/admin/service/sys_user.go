@@ -5,6 +5,7 @@ package service
 
 import (
 	"errors"
+	"fmt"
 	"github.com/jinzhu/copier"
 	"gorm.io/gorm"
 	"meng-admin-gin/app/admin/dto"
@@ -101,6 +102,7 @@ func (e *SysUserService) Get(d *dto.SysUserById, model *models.SysUser) error {
 func (e *SysUserService) Update(c *dto.SysUserUpdateReq) error {
 	var err error
 	var model models.SysUser
+	fmt.Println("999")
 	db := e.Orm.First(&model, c.GetId())
 	if err = db.Error; err != nil {
 		e.Log.Error("Service UpdateSysUser error: " + err.Error())

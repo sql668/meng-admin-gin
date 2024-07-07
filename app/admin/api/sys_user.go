@@ -11,7 +11,6 @@ import (
 	"meng-admin-gin/common/actions"
 	"meng-admin-gin/common/api"
 	"meng-admin-gin/common/code"
-	"meng-admin-gin/core/jwtauth/user"
 	"meng-admin-gin/utils"
 )
 
@@ -175,12 +174,15 @@ func (e SysUserApi) Update(c *gin.Context) {
 		MakeService(&s.Service).
 		Errors
 	if err != nil {
+
 		e.Logger.Error(err.Error())
 		e.ErrorWithMsg(code.ERROR, err, err.Error())
 		return
 	}
 
-	req.SetUpdateBy(user.GetUserId(c))
+	fmt.Println("000")
+
+	req.SetUpdateBy(utils.GetUserId(c))
 
 	//数据权限检查
 	//p := actions.GetPermissionFromContext(c)
@@ -217,7 +219,7 @@ func (e SysUserApi) Delete(c *gin.Context) {
 	}
 
 	// 设置编辑人
-	req.SetUpdateBy(user.GetUserId(c))
+	req.SetUpdateBy(utils.GetUserId(c))
 
 	// 数据权限检查
 	//p := actions.GetPermissionFromContext(c)
@@ -255,7 +257,7 @@ func (e SysUserApi) UpdateStatus(c *gin.Context) {
 		return
 	}
 
-	req.SetUpdateBy(user.GetUserId(c))
+	req.SetUpdateBy(utils.GetUserId(c))
 
 	//数据权限检查
 	//p := actions.GetPermissionFromContext(c)
@@ -293,7 +295,7 @@ func (e SysUserApi) ResetPwd(c *gin.Context) {
 		return
 	}
 
-	req.SetUpdateBy(user.GetUserId(c))
+	req.SetUpdateBy(utils.GetUserId(c))
 
 	//数据权限检查
 	//p := actions.GetPermissionFromContext(c)
@@ -338,7 +340,7 @@ func (e SysUserApi) UpdatePwd(c *gin.Context) {
 		req.NewPassword = string(hash)
 	}
 
-	err = s.UpdatePwd(user.GetUserId(c), req.OldPassword, req.NewPassword)
+	err = s.UpdatePwd(utils.GetUserId(c), req.OldPassword, req.NewPassword)
 	if err != nil {
 		e.Logger.Error(err.Error())
 		e.ErrorWithMsg(code.ERROR, err, err.Error())

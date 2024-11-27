@@ -65,6 +65,10 @@ func (e *SysMenuService) Insert(c *dto.SysMenuInsertReq) *SysMenuService {
 	//	return e
 	//}
 
+	if data.MenuType != cModels.MENU {
+		data.Component = ""
+	}
+
 	err = tx.Create(&data).Error
 	if err != nil {
 		tx.Rollback()
@@ -149,6 +153,10 @@ func (e *SysMenuService) Update(c *dto.SysMenuUpdatetReq) *SysMenuService {
 	tx.First(&model, c.GetId())
 	//oldPath := model.Paths
 	c.Generate(&model)
+	if model.MenuType != cModels.MENU {
+		model.Component = ""
+	}
+
 	//fmt.Println("paths:", model.Paths)
 	db := tx.Model(&model).Session(&gorm.Session{FullSaveAssociations: true}).Debug().Save(&model).Update("no_cache", c.NoCache)
 	if err = db.Error; err != nil {
@@ -216,7 +224,7 @@ func (e *SysMenuService) GetRouterByRole(roleId uint, roleCode string) (m []mode
 	data := make([]models.SysMenu, 0)
 	var role models.SysRole
 	if utils.IsAdminOfRoleCode(roleCode) {
-		err = e.Orm.Where(" menu_type in ('M','C') and deleted_at is null").
+		err = e.Orm.Where(" menu_type in ('M','C') and deleted_at is null and status = 1").
 			Order("sort").
 			Find(&data).
 			Error

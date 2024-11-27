@@ -11,10 +11,8 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 29/06/2024 16:34:21
+ Date: 27/11/2024 23:48:35
 */
-
-USE meng-admin;
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -83,29 +81,88 @@ INSERT INTO `casbin_rule` VALUES (40, 'p', 'developer', '/api/v1/user/pwd/reset'
 COMMIT;
 
 -- ----------------------------
+-- Table structure for form_generate
+-- ----------------------------
+DROP TABLE IF EXISTS `form_generate`;
+CREATE TABLE `form_generate` (
+  `form_id` bigint NOT NULL AUTO_INCREMENT,
+  `form_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `json_schema` text COLLATE utf8mb4_general_ci,
+  `sort` tinyint DEFAULT NULL,
+  `status` tinyint DEFAULT '1' COMMENT '状态 1:正常 0 停用',
+  `is_model` tinyint(1) DEFAULT NULL,
+  `create_by` bigint DEFAULT NULL COMMENT '创建者',
+  `update_by` bigint DEFAULT NULL COMMENT '更新者',
+  `created_at` datetime(3) DEFAULT NULL COMMENT '创建时间',
+  `updated_at` datetime(3) DEFAULT NULL COMMENT '最后更新时间',
+  `deleted_at` datetime(3) DEFAULT NULL COMMENT '删除时间',
+  PRIMARY KEY (`form_id`),
+  KEY `idx_form_generate_update_by` (`update_by`),
+  KEY `idx_form_generate_deleted_at` (`deleted_at`),
+  KEY `idx_form_generate_create_by` (`create_by`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of form_generate
+-- ----------------------------
+BEGIN;
+INSERT INTO `form_generate` VALUES (1, '部门-编辑表单', '{\"form\":{},\"schema\":{\"type\":\"object\",\"properties\":{\"usdwksmcz85\":{\"type\":\"string\",\"title\":\"Input\",\"x-decorator\":\"FormItem\",\"x-component\":\"Input\",\"x-designable-id\":\"usdwksmcz85\",\"x-index\":0},\"hz4ml3551v2\":{\"type\":\"string\",\"title\":\"TextArea\",\"x-decorator\":\"FormItem\",\"x-component\":\"Input.TextArea\",\"x-designable-id\":\"hz4ml3551v2\",\"x-index\":1}},\"x-designable-id\":\"op7m5wdmf68\"}}', 1, 1, 0, 0, 1, '2024-11-25 23:14:23.159', '2024-11-26 00:25:25.026', NULL);
+INSERT INTO `form_generate` VALUES (2, '部门-编辑表单', '{\"form\":{},\"schema\":{\"type\":\"object\",\"properties\":{\"usdwksmcz85\":{\"type\":\"string\",\"title\":\"Input\",\"x-decorator\":\"FormItem\",\"x-component\":\"Input\",\"x-designable-id\":\"usdwksmcz85\",\"x-index\":0},\"hz4ml3551v2\":{\"type\":\"string\",\"title\":\"TextArea\",\"x-decorator\":\"FormItem\",\"x-component\":\"Input.TextArea\",\"x-designable-id\":\"hz4ml3551v2\",\"x-index\":1}},\"x-designable-id\":\"q7wlz2rpdnn\"}}', 1, 1, 1, 0, 1, '2024-11-26 00:25:29.866', '2024-11-26 00:26:08.267', NULL);
+INSERT INTO `form_generate` VALUES (3, '部门-编辑表单00234456', '{\"form\":{\"labelCol\":6,\"wrapperCol\":12},\"schema\":{\"type\":\"object\",\"properties\":{\"usdwksmcz85\":{\"type\":\"string\",\"title\":\"Input\",\"x-decorator\":\"FormItem\",\"x-component\":\"Input\",\"x-designable-id\":\"usdwksmcz85\",\"x-index\":0},\"hz4ml3551v2\":{\"type\":\"string\",\"title\":\"TextArea\",\"x-decorator\":\"FormItem\",\"x-component\":\"Input.TextArea\",\"x-designable-id\":\"hz4ml3551v2\",\"x-index\":1}},\"x-designable-id\":\"12z0dzj2xha\"}}', 1, 1, 1, 0, 1, '2024-11-26 00:26:42.553', '2024-11-27 20:40:17.353', NULL);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for form_tools
+-- ----------------------------
+DROP TABLE IF EXISTS `form_tools`;
+CREATE TABLE `form_tools` (
+  `form_id` bigint NOT NULL AUTO_INCREMENT,
+  `form_name` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `json_schema` text COLLATE utf8mb4_general_ci,
+  `sort` tinyint DEFAULT NULL,
+  `status` tinyint DEFAULT '1' COMMENT '状态 1:正常 0 停用',
+  `is_model` tinyint(1) DEFAULT NULL,
+  `create_by` bigint DEFAULT NULL COMMENT '创建者',
+  `update_by` bigint DEFAULT NULL COMMENT '更新者',
+  `created_at` datetime(3) DEFAULT NULL COMMENT '创建时间',
+  `updated_at` datetime(3) DEFAULT NULL COMMENT '最后更新时间',
+  `deleted_at` datetime(3) DEFAULT NULL COMMENT '删除时间',
+  PRIMARY KEY (`form_id`),
+  KEY `idx_form_tools_deleted_at` (`deleted_at`),
+  KEY `idx_form_tools_create_by` (`create_by`),
+  KEY `idx_form_tools_update_by` (`update_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- ----------------------------
+-- Records of form_tools
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
 -- Table structure for sys_api
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_api`;
 CREATE TABLE `sys_api` (
-  `handle` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'handle',
-  `title` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '标题',
-  `path` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'api路径',
-  `action` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '请求类型',
-  `type` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '接口类型',
+  `handle` varchar(128) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT 'handle',
+  `title` varchar(128) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '标题',
+  `path` varchar(128) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT 'api路径',
+  `action` varchar(16) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '请求类型',
+  `type` varchar(16) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '接口类型',
   `created_at` datetime(3) DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime(3) DEFAULT NULL COMMENT '最后更新时间',
   `deleted_at` datetime(3) DEFAULT NULL COMMENT '删除时间',
   `create_by` bigint DEFAULT NULL COMMENT '创建者',
   `update_by` bigint DEFAULT NULL COMMENT '更新者',
-  `api_group` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'api组',
-  `method` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '接口类型POST|PUT|DELETE|GET',
+  `api_group` varchar(191) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT 'api组',
+  `method` varchar(16) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '接口类型POST|PUT|DELETE|GET',
   `api_id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键编码',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `remark` varchar(255) CHARACTER SET utf8mb4  DEFAULT NULL,
   PRIMARY KEY (`api_id`),
   KEY `idx_sys_api_create_by` (`create_by`),
   KEY `idx_sys_api_update_by` (`update_by`),
   KEY `idx_sys_api_deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of sys_api
@@ -149,12 +206,12 @@ DROP TABLE IF EXISTS `sys_dept`;
 CREATE TABLE `sys_dept` (
   `dept_id` bigint NOT NULL AUTO_INCREMENT,
   `parent_id` bigint DEFAULT NULL,
-  `dept_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `dept_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `dept_path` varchar(255) CHARACTER SET utf8mb4  DEFAULT NULL,
+  `dept_name` varchar(128) CHARACTER SET utf8mb4  DEFAULT NULL,
   `sort` tinyint DEFAULT NULL,
-  `leader` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `email` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `leader` varchar(128) CHARACTER SET utf8mb4  DEFAULT NULL,
+  `phone` varchar(11) CHARACTER SET utf8mb4  DEFAULT NULL,
+  `email` varchar(64) CHARACTER SET utf8mb4  DEFAULT NULL,
   `status` tinyint DEFAULT NULL COMMENT '状态 1:正常 0 停用',
   `create_by` bigint DEFAULT NULL COMMENT '创建者',
   `update_by` bigint DEFAULT NULL COMMENT '更新者',
@@ -165,7 +222,7 @@ CREATE TABLE `sys_dept` (
   KEY `idx_sys_dept_create_by` (`create_by`),
   KEY `idx_sys_dept_update_by` (`update_by`),
   KEY `idx_sys_dept_deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of sys_dept
@@ -195,36 +252,36 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_menu`;
 CREATE TABLE `sys_menu` (
   `menu_id` bigint NOT NULL AUTO_INCREMENT,
-  `menu_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '菜单名称',
-  `title` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `icon` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `path` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `paths` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `menu_type` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `action` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `permission` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `menu_name` varchar(128) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '菜单名称',
+  `title` varchar(128) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `icon` varchar(128) CHARACTER SET utf8mb4  DEFAULT NULL,
+  `path` varchar(128) CHARACTER SET utf8mb4  DEFAULT NULL,
+  `paths` varchar(128) CHARACTER SET utf8mb4  DEFAULT NULL,
+  `menu_type` varchar(1) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `action` varchar(16) CHARACTER SET utf8mb4  DEFAULT NULL,
+  `permission` varchar(255) CHARACTER SET utf8mb4  DEFAULT NULL,
   `parent_id` smallint DEFAULT NULL,
   `no_cache` tinyint(1) DEFAULT '1' COMMENT '是否禁用页面缓存',
-  `breadcrumb` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `breadcrumb` varchar(255) CHARACTER SET utf8mb4  DEFAULT NULL,
+  `component` varchar(255) CHARACTER SET utf8mb4  DEFAULT NULL,
   `sort` tinyint DEFAULT NULL COMMENT '显示排序',
-  `visible` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '菜单状态，1:显示 0:隐藏',
-  `is_frame` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0',
+  `visible` varchar(1) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '菜单状态，1:显示 0:隐藏',
+  `is_frame` varchar(1) CHARACTER SET utf8mb4  DEFAULT '0',
   `create_by` bigint DEFAULT NULL COMMENT '创建者',
   `update_by` bigint DEFAULT NULL COMMENT '更新者',
   `created_at` datetime(3) DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime(3) DEFAULT NULL COMMENT '最后更新时间',
   `deleted_at` datetime(3) DEFAULT NULL COMMENT '删除时间',
-  `status` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '菜单状态，1:正常 0:停用',
-  `view_type` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '试图类型，1:普通页面 2:外链页面 3:内嵌页面',
-  `is_internally` varchar(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '0' COMMENT '是否是系统内置数据，内置数据不可删除',
-  `link_url` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '内嵌、外链地址',
-  `has_layout` varchar(1) COLLATE utf8mb4_general_ci DEFAULT '1' COMMENT '是否使用layout',
+  `status` varchar(1) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '菜单状态，1:正常 0:停用',
+  `view_type` varchar(1) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '试图类型，1:普通页面 2:外链页面 3:内嵌页面',
+  `is_internally` varchar(1) CHARACTER SET utf8mb4  DEFAULT '0' COMMENT '是否是系统内置数据，内置数据不可删除',
+  `link_url` varchar(255)  DEFAULT NULL COMMENT '内嵌、外链地址',
+  `has_layout` varchar(1)  DEFAULT '1' COMMENT '是否使用layout',
   PRIMARY KEY (`menu_id`),
   KEY `idx_sys_menu_create_by` (`create_by`),
   KEY `idx_sys_menu_update_by` (`update_by`),
   KEY `idx_sys_menu_deleted_at` (`deleted_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -271,7 +328,12 @@ INSERT INTO `sys_menu` VALUES (56, 'page1', '', 'ant-design:account-book-outline
 INSERT INTO `sys_menu` VALUES (57, '数据大屏', '', 'ant-design:fund-projection-screen-outlined', 'dataScreen', '/0/57', 'C', '', '', 0, 1, '', '', 6, '1', '0', 0, 1, '2024-06-05 21:10:53.941', '2024-06-07 20:59:06.205', NULL, '1', '2', '0', '/noLayout/dataScreen', '1');
 INSERT INTO `sys_menu` VALUES (58, 'noLayout', '', '', 'noLayout', '/0/58', 'M', '', '', 0, 1, '', '', 6, '0', '0', 0, 1, '2024-06-05 23:09:07.262', '2024-06-05 23:09:58.049', NULL, '1', '1', '0', '', '0');
 INSERT INTO `sys_menu` VALUES (59, '内嵌页面一', '', '', 'iframeOne', '/0/59', 'C', '', '', 0, 0, '', '', 6, '1', '0', 0, 1, '2024-06-07 20:57:39.621', '2024-06-07 21:45:50.490', NULL, '1', '3', '0', 'https://nodejs.org/zh-cn/', '1');
-INSERT INTO `sys_menu` VALUES (60, '内嵌页面二', '', '', 'iframeTwo', '/0/60', 'C', '', '', 0, 0, '', '', 7, '1', '0', 0, 1, '2024-06-07 20:58:15.761', '2024-06-07 23:11:01.995', NULL, '1', '3', '0', 'system/dept', '1');
+INSERT INTO `sys_menu` VALUES (60, '内嵌页面二', '', '', 'iframeTwo', '/0/60', 'C', '', '', 0, 0, '', '', 7, '1', '0', 0, 1, '2024-06-07 20:58:15.761', '2024-07-07 22:59:33.382', NULL, '1', '3', '0', 'system/dept', '1');
+INSERT INTO `sys_menu` VALUES (61, '系统工具', '', 'icon-park-outline:toolkit', 'tool', '/0/61', 'M', '', '', 0, 1, '', '', 10, '1', '0', 0, 1, '2024-11-20 23:27:22.940', '2024-11-20 23:28:05.532', NULL, '1', '1', '0', '', '1');
+INSERT INTO `sys_menu` VALUES (62, '表单生成器', '', 'icon-park-outline:form', 'form', '/0/61/62', 'M', '', '', 61, 1, '', '', 1, '1', '0', 0, 1, '2024-11-20 23:34:40.359', '2024-11-21 23:46:02.697', NULL, '1', '1', '0', '', '1');
+INSERT INTO `sys_menu` VALUES (63, '创建表单', '', 'icon-park-outline:form-one', 'add', '/0/61/62/63', 'C', '', '', 62, 1, '', '/views/tool/form/views/edit/index', 3, '0', '0', 0, 1, '2024-11-21 00:51:24.701', '2024-11-27 20:02:58.251', NULL, '1', '1', '0', 'http://localhost:5174/tool/form/add', '0');
+INSERT INTO `sys_menu` VALUES (64, '编辑表单', '', 'icon-park-outline:form-one', 'edit/:id', '/0/61/62/64', 'C', '', '', 62, 1, '', '/views/tool/form/views/edit/index', 2, '0', '0', 0, 1, '2024-11-21 00:54:02.886', '2024-11-27 20:28:28.023', NULL, '1', '1', '0', '', '0');
+INSERT INTO `sys_menu` VALUES (65, '表单生成器', '', 'icon-park-outline:form', 'list', '/0/61/62/65', 'C', '', '', 62, 0, '', '/views/tool/form/index', 1, '0', '0', 0, 1, '2024-11-21 21:26:04.188', '2024-11-21 23:03:15.221', NULL, '1', '1', '0', '', '1');
 COMMIT;
 
 -- ----------------------------
@@ -282,7 +344,7 @@ CREATE TABLE `sys_menu_api_rule` (
   `sys_menu_menu_id` bigint NOT NULL,
   `sys_api_api_id` bigint unsigned NOT NULL COMMENT '主键编码',
   PRIMARY KEY (`sys_menu_menu_id`,`sys_api_api_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of sys_menu_api_rule
@@ -296,11 +358,11 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_post`;
 CREATE TABLE `sys_post` (
   `post_id` bigint NOT NULL AUTO_INCREMENT,
-  `post_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `post_code` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `post_name` varchar(128) CHARACTER SET utf8mb4  DEFAULT NULL,
+  `post_code` varchar(128) CHARACTER SET utf8mb4  DEFAULT NULL,
   `sort` tinyint DEFAULT NULL,
   `status` tinyint DEFAULT NULL,
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `remark` varchar(255) CHARACTER SET utf8mb4  DEFAULT NULL,
   `create_by` bigint DEFAULT NULL COMMENT '创建者',
   `update_by` bigint DEFAULT NULL COMMENT '更新者',
   `created_at` datetime(3) DEFAULT NULL COMMENT '创建时间',
@@ -310,7 +372,7 @@ CREATE TABLE `sys_post` (
   KEY `idx_sys_post_create_by` (`create_by`),
   KEY `idx_sys_post_update_by` (`update_by`),
   KEY `idx_sys_post_deleted_at` (`deleted_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of sys_post
@@ -324,19 +386,19 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role` (
   `role_id` bigint unsigned NOT NULL AUTO_INCREMENT COMMENT '角色ID',
-  `role_name` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '角色名',
-  `status` varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '状态 0禁用 1正常',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `role_name` varchar(191) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '角色名',
+  `status` varchar(4) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '状态 0禁用 1正常',
+  `remark` varchar(255) CHARACTER SET utf8mb4  DEFAULT NULL,
   `admin` tinyint(1) DEFAULT NULL,
-  `data_scope` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1',
+  `data_scope` varchar(128) CHARACTER SET utf8mb4  DEFAULT '1',
   `create_by` bigint DEFAULT NULL COMMENT '创建者',
   `update_by` bigint DEFAULT NULL COMMENT '更新者',
   `created_at` datetime(3) DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime(3) DEFAULT NULL COMMENT '最后更新时间',
   `deleted_at` datetime(3) DEFAULT NULL COMMENT '删除时间',
-  `role_code` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `role_code` varchar(128) CHARACTER SET utf8mb4  DEFAULT NULL,
   `sort` bigint DEFAULT NULL,
-  `default_router` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `default_router` varchar(128) CHARACTER SET utf8mb4  DEFAULT NULL,
   PRIMARY KEY (`role_id`),
   KEY `idx_sys_role_create_by` (`create_by`),
   KEY `idx_sys_role_update_by` (`update_by`),
@@ -446,7 +508,7 @@ CREATE TABLE `sys_user` (
   KEY `idx_sys_user_update_by` (`update_by`),
   KEY `idx_sys_user_deleted_at` (`deleted_at`),
   KEY `idx_sys_user_user_name` (`user_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- ----------------------------
 -- Records of sys_user
@@ -454,7 +516,8 @@ CREATE TABLE `sys_user` (
 BEGIN;
 INSERT INTO `sys_user` VALUES (1, '$2a$10$0GXVLaqxyrzqMfjooIPaeuvHQX0A2TA5vwjUJRrsG0uJtsTSu8Ci.', '', '千寻', '', 'https://pic.qianxun.shop/i/2024/03/29/66059924431c9.webp', '15812341234', 'sql668@qianxun.com', '1', 1, 1, 0, '', 1, 0, '2024-05-19 15:26:48.881', '2024-05-19 15:26:48.881', NULL, 'admin', NULL, '0');
 INSERT INTO `sys_user` VALUES (2, '$2a$10$5DuTJR8IKPHDT1SflJmpS.Y.OrncDype1u3/GtFPgf2WpS2JjMLri', '', '普通用户', '1', 'https://pic.qianxun.shop/i/2024/03/29/66059924431c9.webp', '15812341235', 'xxx@123.com', '1', 2, 1, 0, '', 1, 0, '2024-05-19 15:28:17.475', '2024-05-20 23:53:00.980', NULL, 'sql', NULL, NULL);
-INSERT INTO `sys_user` VALUES (3, '$2a$10$AZHEQ9miIVg35uZE6TXNh.j/9tJDc7OtHqbVbcnh1deZmy0QOVfyW', '', '用户1', '1', 'https://pic.qianxun.shop/i/2024/03/29/66059924431c9.webp', '15912229876', '', '1', 2, 4, 0, '', 0, 0, '2024-05-20 21:58:49.233', '2024-05-21 21:13:55.102', NULL, 'user', NULL, '');
+INSERT INTO `sys_user` VALUES (3, '$2a$10$LDlzEv/3Tg6qaVd2iG1m7uZ1hpmsYM9z.XTGfh29ANDWvuucr3ztO', '', '普通用户2', '1', 'https://pic.qianxun.shop/i/2024/03/29/66059924431c9.webp', '15912229876', '', '1', 2, 4, 0, '', 0, 1, '2024-05-20 21:58:49.233', '2024-07-07 23:13:29.798', NULL, 'user2', NULL, '');
+INSERT INTO `sys_user` VALUES (4, '$2a$10$d1O1uNnVp3LyWj11MBK7lOCikZFCZA/T.8rWaBRN/0bj80DMFVJVq', '', '普通用户', '1', 'https://pic.qianxun.shop/i/2024/03/29/66059924431c9.webp', '', '', '1', 2, 6, 0, '', 1, 0, '2024-07-07 23:13:05.591', '2024-07-07 23:13:05.591', NULL, 'user1', NULL, '');
 COMMIT;
 
 -- ----------------------------
@@ -463,19 +526,19 @@ COMMIT;
 DROP TABLE IF EXISTS `sys_users`;
 CREATE TABLE `sys_users` (
   `user_id` bigint NOT NULL AUTO_INCREMENT COMMENT '编码',
-  `username` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户登录名',
-  `password` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户登录密码',
-  `salt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '加盐',
-  `nick_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '系统用户' COMMENT '用户昵称',
-  `sex` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '性别',
-  `avatar` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'https://pic.qianxun.shop/i/2024/03/29/66059924431c9.webp' COMMENT '用户头像',
-  `phone` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户手机号',
-  `email` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '用户邮箱',
-  `status` varchar(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '1' COMMENT '用户是否被冻结 1正常 0冻结',
+  `username` varchar(191) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '用户登录名',
+  `password` varchar(191) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '用户登录密码',
+  `salt` varchar(255) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '加盐',
+  `nick_name` varchar(128) CHARACTER SET utf8mb4  DEFAULT '系统用户' COMMENT '用户昵称',
+  `sex` varchar(10) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '性别',
+  `avatar` varchar(191) CHARACTER SET utf8mb4  DEFAULT 'https://pic.qianxun.shop/i/2024/03/29/66059924431c9.webp' COMMENT '用户头像',
+  `phone` varchar(11) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '用户手机号',
+  `email` varchar(128) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '用户邮箱',
+  `status` varchar(191) CHARACTER SET utf8mb4  DEFAULT '1' COMMENT '用户是否被冻结 1正常 0冻结',
   `role_id` mediumint DEFAULT NULL COMMENT '角色ID',
   `dept_id` mediumint DEFAULT NULL COMMENT '部门',
   `post_id` mediumint DEFAULT NULL COMMENT '岗位',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT '备注',
+  `remark` varchar(255) CHARACTER SET utf8mb4  DEFAULT NULL COMMENT '备注',
   `create_by` bigint DEFAULT NULL COMMENT '创建者',
   `update_by` bigint DEFAULT NULL COMMENT '更新者',
   `created_at` datetime(3) DEFAULT NULL COMMENT '创建时间',

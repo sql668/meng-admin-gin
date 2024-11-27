@@ -72,6 +72,7 @@ func RegisterTables() {
 		models.SysDept{}, // 部门
 		models.SysPost{}, // 岗位
 		adapter.CasbinRule{},
+		models.FormGenerate{}, // 表单生成器
 	)
 	if err != nil {
 		global.MA_LOG.Error("register table failed", zap.Error(err))
